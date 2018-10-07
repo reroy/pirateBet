@@ -1,0 +1,9 @@
+<h1>{{ match.first_name }}</h1>
+
+<ul>
+{% for koef in match.koef_set.all %}
+    <li>{{ koef.bet_place }} -- {{ koef.factor }} -- {{ koef.bets }} bet{{ koef.bets|pluralize }}</li>
+{% endfor %}
+</ul>
+
+<a href="{% url 'events:detail' match.id %}">Bet again?</a>

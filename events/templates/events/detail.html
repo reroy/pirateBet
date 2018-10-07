@@ -1,0 +1,12 @@
+<h1>Place a bet</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'events:bet' match.id %}" method="post">
+{% csrf_token %}
+{% for koef in match.koef_set.all %}
+    <input type="radio" name="koef" id="koef{{ forloop.counter }}" value="{{ koef.id }}" />
+    <label for="koef{{ forloop.counter }}">{{ koef.bet_place }} - {{ koef.factor }}</label><br />
+{% endfor %}
+<input type="submit" value="Bet" />
+</form>

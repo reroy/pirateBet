@@ -1,0 +1,6 @@
+<h1>Here are today Matches:</h1>
+<ul>
+    {% for match in all_matches %}
+    <li><a href="/events/{{ match.id }}/">{{ match.match_vs }}</a></li>
+    {% endfor %}
+</ul>
