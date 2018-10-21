@@ -1,9 +1,13 @@
-<h1>{{ match.first_name }}</h1>
+{% extends 'events/base.html' %}
 
-<ul>
-{% for koef in match.koef_set.all %}
-    <li>{{ koef.bet_place }} -- {{ koef.factor }} -- {{ koef.bets }} bet{{ koef.bets|pluralize }}</li>
-{% endfor %}
-</ul>
+{% block body %}
+    <h1>{{ match.match_title }}</h1>
 
-<a href="{% url 'events:detail' match.id %}">Bet again?</a>
+    {% for bet in match.bet_set.all %}
+        {% if bet.is_betted %}
+            <h2>${{ bet.money_bet }} - {{ bet.bet_type }} - {{ bet.factor }}</h2>
+        {% endif %}
+    {% endfor %}
+    <a href="{% url 'events:detail' match.id %}">Bet again?</a>
+
+{% endblock %}

@@ -15,6 +15,7 @@ class Club(models.Model):
 
     image_tag.short_description = 'Logo'
 
-#   @classmethod
-#   def get_all_teams(cls):
-#       return list(cls.objects.values_list('id', 'team_name'))
+    @classmethod
+    def get_all_teams(cls):
+        return tuple(cls.objects.values_list('team_name', 'team_name'), )
+

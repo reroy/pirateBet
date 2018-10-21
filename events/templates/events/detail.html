@@ -1,12 +1,27 @@
-<h1>Place a bet</h1>
+{% extends 'events/base.html' %}
 
-{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+{% block body %}
+    <h1>{{ match.match_title }}</h1>
 
-<form action="{% url 'events:bet' match.id %}" method="post">
-{% csrf_token %}
-{% for koef in match.koef_set.all %}
-    <input type="radio" name="koef" id="koef{{ forloop.counter }}" value="{{ koef.id }}" />
-    <label for="koef{{ forloop.counter }}">{{ koef.bet_place }} - {{ koef.factor }}</label><br />
-{% endfor %}
-<input type="submit" value="Bet" />
-</form>
+    <h2>Place a bet</h2>
+
+    {% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+    <form action="{% url 'events:bet' match.id %}" method="post">
+    {% csrf_token %}
+        <label for="money_spent">$</label>
+        <input type="number" name = "money_spent"  id="money_spent" value="{{ money_spent.id }}" min="1" required/>
+
+        <br /><br />
+
+    {% for bet in match.bet_set.all %}
+
+
+        <input type="radio" name="bet" id="bet{{ forloop.counter }}" value="{{ bet.id }}" />
+        <label for="bet{{ forloop.counter }}">{{ bet.bet_type }} - {{ bet.factor }}</label><br />
+
+    {% endfor %}
+    <br />
+    <input type="submit" value="Bet" />
+    </form>
+{% endblock %}

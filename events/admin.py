@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from .models import Koef, Match
+from .models import Bet, Match
 
 
-class KoefMatch(admin.TabularInline):
-    model = Koef
+class BetMatch(admin.TabularInline):
+    model = Bet
     extra = 3
 
 
@@ -14,10 +14,8 @@ class MatchesAdmin(admin.ModelAdmin):
         ('Team 2', {'fields': ['second_team']}),
     ]
 
-    list_display = ('match_vs', )
-    inlines = [KoefMatch]
-
-
+    list_display = ('match_title', )
+    inlines = [BetMatch]
 
 
 admin.site.register(Match, MatchesAdmin)
