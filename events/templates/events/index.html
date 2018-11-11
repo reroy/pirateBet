@@ -1,0 +1,40 @@
+{% extends 'events/base.html' %}
+
+
+{% block body %}
+    <head>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    </head>
+    <h1><p align="center">All matches:</p></h1><br>
+        <div class="span25">
+            <ul class="thumbnails">
+            {% for match in all_matches %}
+
+                <li class="span5 clearfix">
+                    <div class="thumbnail clearfix">
+                    <img src="{{ match.first_team_logo }}" align="left" style='height:100px; width:100px; margin: 15px;'>
+                    <img src="{{ match.second_team_logo }}" align="right" style='height:100px; width:100px; margin: 15px;'>
+
+                        <div class="caption" class="pull-left"><br>
+
+
+
+                            <p align="center">
+                                <a href="/events/{{ match.id }}/">{{ match.match_title }}</a><br><br>
+                                <a href="/events/{{ match.id }}/" class="btn btn-info">Bet</a>
+                            </p>
+
+
+                        </div>
+
+
+                    </div>
+                </li>
+            {% endfor %}
+
+            </ul>
+        </div>
+
+{% endblock %}

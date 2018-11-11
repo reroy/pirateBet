@@ -1,0 +1,45 @@
+{% extends 'events/base.html' %}
+
+{% block body %}
+
+
+<head>
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!------ Include the above in your HEAD tag ---------->
+</head>
+
+
+
+
+
+
+<div class="container">
+	<div class="row">
+    {% if user.is_authenticated %}
+    <h1>Welcome {{ user.username }}, let's make some booty!</h1> <br>
+        <a class="btn btn-lg btn-primary" href="{% url 'logout' %}">
+          <i class="glyphicon glyphicon-off pull-left"></i><span>Logout<br><small>Abandon ship!</small></span></a>
+    {% else %}
+     <h2>Identify yourself!</h2>
+    <ul class="ds-btn">
+
+        <li>
+             <a class="btn btn-lg btn-primary" href="{% url 'login' %}">
+          <i class="glyphicon glyphicon-user pull-left"></i><span>Login<br><small>Set sail!</small></span></a>
+
+        </li>
+        <li>
+             <a class="btn btn-lg btn-success " href="{% url 'signup' %}">
+         <i class="glyphicon glyphicon-plus pull-left"></i><span>Sign up<br><small>Join the crew!</small></span></a>
+
+        </li>
+
+    </ul>
+
+	</div>
+</div>
+
+{% endif %}
+{% endblock %}

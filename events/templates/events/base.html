@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Pirate bet{% endblock %}</title>
+    {% load staticfiles %}
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'events/style.css' %}" />
+
+    <link rel="shortcut icon" href="{%  static 'favicon.ico' %}">
+
+</head>
+<body>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#topNavBar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+
+                </button>
+                <a class="navbar-brand" href="{% url 'home' %}">Arr!</a>
+            </div>
+
+            <div class="collapse navbar-collapse" id="topNavBar">
+                <ul class="nav navbar-nav">
+                    <li class="">
+                        <a href="{% url 'events:index' %}">
+                            <span class="glyphicon glyphicon-flag" aria-hidden="true"></span>&nbsp;Events</a>
+                    </li>
+                    <li class="">
+                        <a href="{% url 'teams:index' %}">
+                            <span class="glyphicon glyphicon-bullhorn" aria-hidden="true"></span>&nbsp;Teams</a>
+                    </li>
+                </ul>
+
+
+
+                <ul class="nav navbar-nav navbar-right">
+
+                    <li class="">
+                        {% if user.is_authenticated %}
+                         <a>Current Balance:
+                            <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>{{ user.userbank.user_amount }}</a>
+                        {% endif %}
+                    </li>
+
+                    <li class="">
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'cash' %}">
+                            <span class="glyphicon glyphicon-credit-card" aria-hidden="true"></span>&nbsp;Cash</a>
+                        {% elif not user.is_authenticated %}
+                            <a href="{% url 'signup' %}">
+                                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>&nbsp;Sigh up</a>
+                        {% endif %}
+                    </li>
+
+
+
+
+                    <li class="">
+
+                        {% if user.is_authenticated %}
+                            <a href="{% url 'logout' %}">
+                                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>&nbsp;Logout</a>
+
+                        {% elif not user.is_authenticated %}
+                            <a href="{% url 'login' %}">
+                                <span class="glyphicon glyphicon-user" aria-hidden="true"></span>&nbsp;Login</a>
+                        {% endif %}
+
+                    </li>
+                </ul>
+            </div>
+
+
+
+        </div>
+    </nav>
+
+{% block body %}
+{% endblock %}
+</body>
+</html>
