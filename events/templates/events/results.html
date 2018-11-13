@@ -14,10 +14,10 @@
     <div class="col-md-4">
     <span style="font-size: 40px;">{{ match.match_title }}</span><br /><br />
 
+    <span style="font-size: 30px;">Your bets for the match:</span><br /><br />
     {% for bet in user.userbank.userbet_set.all %}
     <div class="form-check">
-        <label class="bet_input" for="bet{{ forloop.counter }}">
-            <input type="radio" name="bet" id="bet{{ forloop.counter }}" value="{{ bet.id }}" checked>
+        <label class="bet_input">
             <span class="label-text">${{ bet.money_bet }} - {{ bet.bet_type }} - {{ bet.factor }}</span>
         </label>
 	</div>

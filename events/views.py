@@ -27,6 +27,7 @@ def detail(request, match_id):
 @login_required
 def results(request, match_id):
     match = get_object_or_404(Match, pk=match_id)
+
     return render(request, 'events/results.html', {'match': match})
 
 
