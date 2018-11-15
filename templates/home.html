@@ -12,15 +12,21 @@
 
 
 
-
+{% load staticfiles %}
 
 
 <div class="container">
 	<div class="row">
+
     {% if user.is_authenticated %}
     <h1>Welcome {{ user.username }}, let's make some booty!</h1> <br>
+        <div>
         <a class="btn btn-lg btn-primary" href="{% url 'logout' %}">
           <i class="glyphicon glyphicon-off pull-left"></i><span>Logout<br><small>Abandon ship!</small></span></a>
+        <div style="margin-left: -270px;margin-top: -215px;">
+            <img src="{%  static 'home_pirate.png' %}">
+        </div>
+        </div>
     {% else %}
      <h2>Identify yourself!</h2>
     <ul class="ds-btn">
@@ -39,7 +45,9 @@
     </ul>
 
 	</div>
-</div>
 
+
+</div>
 {% endif %}
+
 {% endblock %}
