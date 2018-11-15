@@ -1,5 +1,5 @@
 # pirateBet
 betting site
 
-user: admin
+user: admin^P
 pass: admin123test
