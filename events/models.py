@@ -9,6 +9,7 @@ from django.dispatch import receiver
 class Match(models.Model):
     first_team = models.CharField(max_length=255)
     second_team = models.CharField(max_length=255)
+    is_active = models.BooleanField(default=True)
 
 #   def allTeams():
 #       all_star = ()
@@ -59,7 +60,6 @@ class Bet(models.Model):
     factor = models.FloatField(default=1, blank=False)
     bets = models.IntegerField(default=0)
     bet_type = models.CharField(max_length=1, choices=BET_OPTIONS)
-    is_betted = models.BooleanField(default=False)
     money_bet = models.IntegerField(default=0)
     bet_users = models.ManyToManyField(User)
 

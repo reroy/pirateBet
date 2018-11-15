@@ -53,7 +53,6 @@ def bet(request, match_id):
 
     else:
         bets_made.bets += 1
-        bets_made.is_betted = True
         bets_made.money_bet += float(request.POST['money_spent'])
         bets_made.save()
 

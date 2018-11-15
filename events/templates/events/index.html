@@ -11,7 +11,7 @@
         <div class="span25">
             <ul class="thumbnails">
             {% for match in all_matches %}
-
+                {% if match.is_active %}
                 <li class="span5 clearfix">
                     <div class="thumbnail clearfix">
                     <img src="{{ match.first_team_logo }}" align="left" style='height:100px; width:100px; margin: 15px;'>
@@ -32,6 +32,7 @@
 
                     </div>
                 </li>
+                {% endif %}
             {% endfor %}
 
             </ul>
