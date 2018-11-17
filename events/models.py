@@ -61,7 +61,7 @@ class Bet(models.Model):
     bets = models.IntegerField(default=0)
     bet_type = models.CharField(max_length=1, choices=BET_OPTIONS)
     money_bet = models.IntegerField(default=0)
-    bet_users = models.ManyToManyField(User)
+    bet_users = models.ManyToManyField(User, null=True, blank=True)
 
     def __str__(self):
         return '{}, Bet type: {}, Bet factor: {}, Bets count: {}'.format(
