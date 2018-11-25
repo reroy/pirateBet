@@ -1,7 +1,7 @@
 {% extends 'events/base.html' %}
-
+    {% load mathfilters %}
+    {% load humanize %}
 {% block body %}
-
     <head>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -109,22 +109,24 @@
 
             </div>
         <div class="col-xs-12 col-md-8" style="font-size: 12pt; line-height: 2em;">
-            <p><h1>Current: {{ user.userbank.user_amount }}</h1>
+            <p><h1>Current Balance: ${{ user.userbank.user_amount }}</h1>
+            {% if user.userbank.userbet_set.all %}
+            <b>Bets made</b>:
+            {% endif %}
                 <ul>
-                    <li>As-you-type, input formatting </li>
-                    <li>Form field validation (also as you type)</li>
-                    <li>Graceful error feedback for declined card, etc</li>
-                    <li>AJAX form submission w/ visual feedback</li>
-                    <li>Creates a Stripe credit card token</li>
+
+                    {% for bet in user.userbank.userbet_set.all %}
+
+                        <li>{{bet.match}}: <br>${{ bet.money_bet }} - {{ bet.bet_type }} - {{ bet.factor }}<br>
+                        <b>Expected Win</b>: ${{ bet.money_bet|mul:bet.factor|floatformat:2|intcomma }}</li>
+
+                    {% endfor %}
                 </ul>
             </p>
-            <p>Be sure to replace the dummy API key with a valid Stripe API key.</p>
+            <h1>Total Deposits ${{ user.userbank.total_input }}</h1>
 
-            <p>Built upon: Bootstrap, jQuery,
-                <a href="http://jqueryvalidation.org/">jQuery Validation Plugin</a>,
-                <a href="https://github.com/stripe/jquery.payment">jQuery.payment library</a>,
-                and <a href="https://stripe.com/docs/stripe.js">Stripe.js</a>
-            </p>
+
+            <h1>Profit: ${{ user.userbank.user_amount|sub:user.userbank.total_input }}</h1>
         </div>
 
         </div>

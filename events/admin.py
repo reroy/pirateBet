@@ -1,18 +1,70 @@
 from django.contrib import admin
-
+import random
 from .models import Bet, Match, UserBank, UserBet
+from django.contrib.auth.models import User
+from decimal import Decimal
 
 
 def disable_match(ModelAdmin, request, queryset):
+
+    a = ['1', '2', 'X']
+    b = random.choice(a)
+    booty = 0
+    users = User.objects.all()
+    admin = User.objects.get(username='admin')
+    for match in queryset:
+        for bet in match.bet_set.all():
+            if bet.bet_type == b:
+                print(b)
+                bet.winning_bet = True
+                bet.save()
+
     queryset.update(is_active=False)
+
+    if request.method == 'POST':
+        for match in queryset:
+            if not match.is_active:
+                for bet in match.bet_set.all():
+
+                    if not bet.winning_bet:
+                        booty += bet.money_bet
+                        print(booty)
+
+                    elif bet.winning_bet:
+                        for user in users:
+                            if user.username != 'admin':
+                                for userBet in user.userbank.userbet_set.all():
+                                    if userBet.bet_id == bet.id:
+                                        user.userbank.user_amount += Decimal(bet.money_bet*bet.factor)
+                                        user.save()
+                                        print('user win: '+str(bet.money_bet*bet.factor))
+                        print('bet id: ' + str(bet.id))
+                        print(bet.money_bet*bet.factor)
+
+        admin.userbank.user_amount += booty
+        admin.save()
+
+
+disable_match.short_description = "End selected matches"
 
 
 def enable_match(ModelAdmin, request, queryset):
+    for match in queryset:
+        for bet in match.bet_set.all():
+            if bet.winning_bet:
+                bet.winning_bet = False
+                bet.save()
     queryset.update(is_active=True)
 
 
-disable_match.short_description = "Disable selected matchs"
-enable_match.short_description = "Enable selected matchs"
+enable_match.short_description = "Enable selected matches"
+
+
+def deactivate_match(ModelAdmin, request, queryset):
+    queryset.update(is_active=False)
+
+
+deactivate_match.short_description = "Deactivate selected matches"
 
 
 class BetMatch(admin.TabularInline):
@@ -26,7 +78,7 @@ class MatchesAdmin(admin.ModelAdmin):
         ('Team 2', {'fields': ['second_team']}),
         ('Status', {'fields': ['is_active']}),
     ]
-    actions = [enable_match,disable_match]
+    actions = [enable_match, disable_match, deactivate_match]
     list_display = ('match_title', 'is_active', )
     inlines = [BetMatch]
 

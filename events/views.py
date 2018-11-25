@@ -57,7 +57,11 @@ def bet(request, match_id):
         bets_made.save()
 
         user.userbank.user_amount -= Decimal(request.POST['money_spent'])
-        user.userbank.userbet_set.create(money_bet=request.POST['money_spent'], bet_type=bets_made.bet_type, match_id=match_id, factor=bets_made.factor)
+        user.userbank.userbet_set.create(money_bet=request.POST['money_spent'],
+                                         bet_type=bets_made.bet_type,
+                                         match_id=match_id,
+                                         factor=bets_made.factor,
+                                         bet_id=bets_made.id)
         user.save()
 
         return HttpResponseRedirect(reverse('events:results', args=(match.id,)))
@@ -71,6 +75,7 @@ def credit_card(request):
         form = CreditCardField(request.POST)
         if form.is_valid():
             user.userbank.user_amount += form.cleaned_data['amountDeposit']
+            user.userbank.total_input += form.cleaned_data['amountDeposit']
             user.save()
             print(user.userbank.user_amount)
     return render(request, 'forms.html', {'form': form})
