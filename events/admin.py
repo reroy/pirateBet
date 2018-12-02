@@ -27,6 +27,11 @@ def disable_match(ModelAdmin, request, queryset):
                 for bet in match.bet_set.all():
 
                     if not bet.winning_bet:
+                        for user in users:
+                            for userBet in user.userbank.userbet_set.all():
+                                if userBet.bet_id == bet.id:
+                                    userBet.bet_status = '0'
+                                    userBet.save()
                         booty += bet.money_bet
                         print(booty)
 
@@ -35,13 +40,14 @@ def disable_match(ModelAdmin, request, queryset):
                             if user.username != 'admin':
                                 for userBet in user.userbank.userbet_set.all():
                                     if userBet.bet_id == bet.id:
-                                        user.userbank.user_amount += Decimal(bet.money_bet*bet.factor)
+                                        userBet.bet_status = '1'
+                                        userBet.save()
+                                        user.userbank.user_amount += userBet.money_bet*Decimal(bet.factor)
                                         user.save()
-                                        print('user win: '+str(bet.money_bet*bet.factor))
+                                        print('user win: ' + str(userBet.money_bet*Decimal(bet.factor)))
                         print('bet id: ' + str(bet.id))
-                        print(bet.money_bet*bet.factor)
-
-        admin.userbank.user_amount += booty
+                        print(str(userBet.money_bet * Decimal(bet.factor)))
+        admin.userbank.user_amount += Decimal(booty)
         admin.save()
 
 
@@ -62,9 +68,29 @@ enable_match.short_description = "Enable selected matches"
 
 def deactivate_match(ModelAdmin, request, queryset):
     queryset.update(is_active=False)
+    users = User.objects.all()
+
+    if request.method == 'POST':
+        for match in queryset:
+            for bet in match.bet_set.all():
+                for user in users:
+                    for userBet in user.userbank.userbet_set.all():
+                        if userBet.bet_id == bet.id:
+                            user.userbank.user_amount += userBet.money_bet
+                            user.save()
+                            bet.money_bet -= userBet.money_bet
+                            bet.save()
+                            userBet.delete()
 
 
 deactivate_match.short_description = "Deactivate selected matches"
+
+
+def activate_match(ModelAdmin, request, queryset):
+    queryset.update(is_active=True)
+
+
+activate_match.short_description = "Activate selected matches"
 
 
 class BetMatch(admin.TabularInline):
@@ -78,7 +104,7 @@ class MatchesAdmin(admin.ModelAdmin):
         ('Team 2', {'fields': ['second_team']}),
         ('Status', {'fields': ['is_active']}),
     ]
-    actions = [enable_match, disable_match, deactivate_match]
+    actions = [enable_match, disable_match, activate_match, deactivate_match]
     list_display = ('match_title', 'is_active', )
     inlines = [BetMatch]
 

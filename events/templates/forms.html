@@ -115,10 +115,21 @@
             {% endif %}
                 <ul>
 
+
+
                     {% for bet in user.userbank.userbet_set.all %}
 
                         <li>{{bet.match}}: <br>${{ bet.money_bet }} - {{ bet.bet_type }} - {{ bet.factor }}<br>
-                        <b>Expected Win</b>: ${{ bet.money_bet|mul:bet.factor|floatformat:2|intcomma }}</li>
+                        {% if bet.bet_status == 'X' %}
+                        <b>Expected Win</b>: ${{ bet.money_bet|mul:bet.factor|floatformat:2|intcomma }}
+
+                        {% elif bet.bet_status == '1' %}
+                        <b>Won</b>: ${{ bet.money_bet|mul:bet.factor|floatformat:2|intcomma }}
+
+                        {% elif bet.bet_status == '0' %}
+                        <b>Lost</b>: ${{ bet.money_bet|floatformat:2|intcomma }}
+                        {% endif %}
+                        </li>
 
                     {% endfor %}
                 </ul>

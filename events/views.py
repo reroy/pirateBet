@@ -53,7 +53,7 @@ def bet(request, match_id):
 
     else:
         bets_made.bets += 1
-        bets_made.money_bet += float(request.POST['money_spent'])
+        bets_made.money_bet += Decimal(request.POST['money_spent'])
         bets_made.save()
 
         user.userbank.user_amount -= Decimal(request.POST['money_spent'])
@@ -70,6 +70,7 @@ def bet(request, match_id):
 @login_required
 def credit_card(request):
     user = request.user
+    match = Match.objects.all()
     form = CreditCardField()
     if request.method == 'POST':
         form = CreditCardField(request.POST)

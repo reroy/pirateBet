@@ -61,7 +61,7 @@ class Bet(models.Model):
     winning_bet = models.BooleanField(default=False)
     bets = models.IntegerField(default=0)
     bet_type = models.CharField(max_length=1, choices=BET_OPTIONS)
-    money_bet = models.IntegerField(default=0)
+    money_bet = models.DecimalField(max_digits=8, decimal_places=2, default=Decimal('0.00'))
     bet_users = models.ManyToManyField(User, blank=True)
 
     def __str__(self):
@@ -88,12 +88,18 @@ class UserBet(models.Model):
         ('X', 'draw'),
         ('2', 'second')
     )
+    BET_STATUS = (
+        ('1', 'win'),
+        ('X', 'pending'),
+        ('0', 'lost')
+    )
     user = models.ForeignKey(UserBank, on_delete=models.CASCADE)
     match = models.ForeignKey(Match, on_delete=models.CASCADE)
     bet_type = models.CharField(max_length=1, choices=BET_OPTIONS)
-    money_bet = models.IntegerField(default=0)
+    money_bet = models.DecimalField(max_digits=8, decimal_places=2, default=Decimal('0.00'))
     factor = models.FloatField(default=1, blank=False)
     bet_id = models.IntegerField(default=0, blank=False)
+    bet_status = models.CharField(max_length=1, default='X', choices=BET_STATUS)
 
 
 @receiver(post_save, sender=User)
