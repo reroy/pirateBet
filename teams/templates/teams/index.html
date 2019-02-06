@@ -1,4 +1,5 @@
 {% extends 'events/base.html' %}
+{% load i18n %}
 
 {% block body %}
     <head>
@@ -10,15 +11,15 @@
     <h1><p align="center">All teams:</p></h1>
 
 
-    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.css" media="screen">{% blocktrans %}
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fancybox/2.1.5/jquery.fancybox.min.js"></script>{% endblocktrans %}
 
     <div class="container">
         <div class="row">
             <div class='list-group gallery'>
                 {% for team in all_teams %}
                 <div class='col-sm-4 col-xs-6 col-md-3 col-lg-3' style="width:230px; height: 200px;">
-                    <a class="thumbnail fancybox" rel="ligthbox" href="" style="width: 170px; height: 165px;">
+                    <a class="thumbnail fancybox" rel="ligthbox" href="{% url 'events:team_events' team.id %}" style="width: 170px; height: 165px;">
                         <img class="img-responsive" alt="" src="{{ team.team_logo.url }}" width="100" height="100"/>
                         <div class='text-right' style="position:absolute; bottom:40px; text-align: right; width:155px;">
                             <small class='text-muted'>{{ team.team_name }}</small>

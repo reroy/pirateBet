@@ -18,4 +18,3 @@ class Club(models.Model):
     @classmethod
     def get_all_teams(cls):
         return tuple(cls.objects.values_list('team_name', 'team_name'), )
-

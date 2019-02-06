@@ -6,12 +6,14 @@
     <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-
-    <h1 align="center">All matches:</h1><br>
+    {% if all_matches3 %}
+    <h1 align="center">All matches of {{ team }}</h1><br>
+    {% else %}
+    <h1 align="center">{{ team }} has no matches today!</h1><br>
+    {% endif %}
         <div class="span25">
             <ul class="thumbnails">
-            {% for match in all_matches %}
-                {% if match.is_active %}
+            {% for match in all_matches3 %}
                 <li class="span5 clearfix">
                     <div class="thumbnail clearfix">
                     <img src="{{ match.first_team_logo }}" align="left" style='height:100px; width:100px; margin: 15px;' alt="First team Logo">
@@ -32,7 +34,6 @@
 
                     </div>
                 </li>
-                {% endif %}
             {% endfor %}
 
             </ul>

@@ -11,12 +11,6 @@ class Match(models.Model):
     second_team = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
 
-#   def allTeams():
-#       all_star = ()
-#       for x, y in enumerate(Club.objects.all()):
-#           all_star += ((str(x), y.team_name),)
-#       return all_star
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._meta.get_field('first_team').choices = Club.get_all_teams()
@@ -41,11 +35,17 @@ class Match(models.Model):
             if self.second_team == x.team_name:
                 return x.team_logo.url
 
-#    def match_vs(self):
-#        anounce_match = Match.objects.filter(id=self.id)
-#        if anounce_match:
-#            return '{} vs {}'.format(self.get_first_team_display(), self.get_second_team_display())
-#        return None
+    @property
+    def first_team_index(self):
+        for x in Club.objects.all():
+            if self.first_team == x.team_name:
+                return int(x.id)
+
+    @property
+    def second_team_index(self):
+        for x in Club.objects.all():
+            if self.second_team == x.team_name:
+                return int(x.id)
 
     match_title.fget.short_description = 'All matches'
 
@@ -107,4 +107,3 @@ def update_user_profile(sender, instance, created, **kwargs):
     if created:
         UserBank.objects.create(user=instance)
     instance.userbank.save()
-

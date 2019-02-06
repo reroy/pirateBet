@@ -7,12 +7,15 @@ from decimal import Decimal
 
 def disable_match(ModelAdmin, request, queryset):
 
-    a = ['1', '2', 'X']
-    b = random.choice(a)
+    global userBet
     booty = 0
     users = User.objects.all()
-    admin = User.objects.get(username='admin')
+    admin_user = User.objects.get(username='admin')
     for match in queryset:
+
+        a = ['1', '2', 'X']
+        b = random.choice(a)
+
         for bet in match.bet_set.all():
             if bet.bet_type == b:
                 print(b)
@@ -29,7 +32,7 @@ def disable_match(ModelAdmin, request, queryset):
                     if not bet.winning_bet:
                         for user in users:
                             for userBet in user.userbank.userbet_set.all():
-                                if userBet.bet_id == bet.id:
+                                if userBet.bet_id == bet.id and userBet.bet_status == 'X':
                                     userBet.bet_status = '0'
                                     userBet.save()
                         booty += bet.money_bet
@@ -39,7 +42,7 @@ def disable_match(ModelAdmin, request, queryset):
                         for user in users:
                             if user.username != 'admin':
                                 for userBet in user.userbank.userbet_set.all():
-                                    if userBet.bet_id == bet.id:
+                                    if userBet.bet_id == bet.id and userBet.bet_status == 'X':
                                         userBet.bet_status = '1'
                                         userBet.save()
                                         user.userbank.user_amount += userBet.money_bet*Decimal(bet.factor)
@@ -47,8 +50,8 @@ def disable_match(ModelAdmin, request, queryset):
                                         print('user win: ' + str(userBet.money_bet*Decimal(bet.factor)))
                         print('bet id: ' + str(bet.id))
                         print(str(userBet.money_bet * Decimal(bet.factor)))
-        admin.userbank.user_amount += Decimal(booty)
-        admin.save()
+        admin_user.userbank.user_amount += Decimal(booty)
+        admin_user.save()
 
 
 disable_match.short_description = "End selected matches"
@@ -74,13 +77,13 @@ def deactivate_match(ModelAdmin, request, queryset):
         for match in queryset:
             for bet in match.bet_set.all():
                 for user in users:
-                    for userBet in user.userbank.userbet_set.all():
-                        if userBet.bet_id == bet.id:
-                            user.userbank.user_amount += userBet.money_bet
+                    for userBets in user.userbank.userbet_set.all():
+                        if userBets.bet_id == bet.id:
+                            user.userbank.user_amount += userBets.money_bet
                             user.save()
-                            bet.money_bet -= userBet.money_bet
+                            bet.money_bet -= userBets.money_bet
                             bet.save()
-                            userBet.delete()
+                            userBets.delete()
 
 
 deactivate_match.short_description = "Deactivate selected matches"
@@ -88,6 +91,14 @@ deactivate_match.short_description = "Deactivate selected matches"
 
 def activate_match(ModelAdmin, request, queryset):
     queryset.update(is_active=True)
+
+    if request.method == 'POST':
+        for match in queryset:
+            for bet in match.bet_set.all():
+                bet.winning_bet = False
+                bet.bets = 0
+                bet.money_bet = 0
+                bet.save()
 
 
 activate_match.short_description = "Activate selected matches"

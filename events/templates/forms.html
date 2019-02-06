@@ -2,11 +2,11 @@
     {% load mathfilters %}
     {% load humanize %}
 {% block body %}
-    <head>
+
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-    </head>
+
 
     <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.13.1/jquery.validate.min.js"></script>
@@ -30,7 +30,7 @@
                     <div class="row display-tr" >
                         <h3 class="panel-title display-td" >Payment Details</h3>
                         <div class="display-td" >
-                            <img class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
+                            <img alt="card img" class="img-responsive pull-right" src="http://i76.imgup.net/accepted_c22e0.png">
                         </div>
                     </div>
                 </div>
@@ -109,7 +109,7 @@
 
             </div>
         <div class="col-xs-12 col-md-8" style="font-size: 12pt; line-height: 2em;">
-            <p><h1>Current Balance: ${{ user.userbank.user_amount }}</h1>
+            <h1>Current Balance: ${{ user.userbank.user_amount }}</h1>
             {% if user.userbank.userbet_set.all %}
             <b>Bets made</b>:
             {% endif %}
@@ -133,7 +133,7 @@
 
                     {% endfor %}
                 </ul>
-            </p>
+
             <h1>Total Deposits ${{ user.userbank.total_input }}</h1>
 
 

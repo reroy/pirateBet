@@ -43,7 +43,7 @@ button::-moz-focus-inner, input::-moz-focus-inner {
 .container-fluid > .navbar-collapse, .container-fluid > .navbar-header, .container > .navbar-collapse, .container > .navbar-header {
 
     margin-right: -15px !important;
-    margin-left: 0px !important;
+    margin-left: 0 !important;
 
 }
 
@@ -120,7 +120,7 @@ input[type="checkbox"], input[type="radio"]{
 
 input[type="radio"] + .label-text:before{
 	content: "\f10c";
-	font-family: "FontAwesome";
+    font-family: "FontAwesome", serif;
 	speak: none;
 	font-style: normal;
 	font-weight: normal;
@@ -133,11 +133,17 @@ input[type="radio"] + .label-text:before{
 	margin-right: 5px;
 }
 
+input[type="radio"]:checked + .label-text{
+	content: "\f192";
+	color: #39b3d7;
+	animation: effect 250ms ease-in;
+}
 input[type="radio"]:checked + .label-text:before{
 	content: "\f192";
 	color: #39b3d7;
 	animation: effect 250ms ease-in;
 }
+
 
 input[type="radio"]:disabled + .label-text{
 	color: #aaa;
