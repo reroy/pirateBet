@@ -12,7 +12,6 @@ from decimal import Decimal
 def team_events(request, club_id):
     all_matches2 = set()
     team = list(Club.objects.filter(pk=club_id))[0]
-    print(team)
     for match in Match.objects.filter(is_active=True):
         if match.first_team_index == int(club_id) or match.second_team_index == int(club_id):
             all_matches2.add(match.pk)
