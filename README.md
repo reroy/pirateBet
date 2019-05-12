@@ -1,2 +1,0 @@
-# pirateBet
-betting site

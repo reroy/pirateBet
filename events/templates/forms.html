@@ -1,6 +1,5 @@
 {% extends 'events/base.html' %}
-    {% load mathfilters %}
-    {% load humanize %}
+
 {% block body %}
 
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -121,13 +120,13 @@
 
                         <li>{{bet.match}}: <br>${{ bet.money_bet }} - {{ bet.bet_type }} - {{ bet.factor }}<br>
                         {% if bet.bet_status == 'X' %}
-                        <b>Expected Win</b>: ${{ bet.money_bet|mul:bet.factor|floatformat:2|intcomma }}
+                        <b>Expected Win</b>: ${{ bet.money_bet }}
 
                         {% elif bet.bet_status == '1' %}
-                        <b>Won</b>: ${{ bet.money_bet|mul:bet.factor|floatformat:2|intcomma }}
+                        <b>Won</b>: ${{ bet.money_bet }}
 
                         {% elif bet.bet_status == '0' %}
-                        <b>Lost</b>: ${{ bet.money_bet|floatformat:2|intcomma }}
+                        <b>Lost</b>: ${{ bet.money_bet }}
                         {% endif %}
                         </li>
 
@@ -137,7 +136,7 @@
             <h1>Total Deposits ${{ user.userbank.total_input }}</h1>
 
 
-            <h1>Profit: ${{ user.userbank.user_amount|sub:user.userbank.total_input }}</h1>
+            <h1>Profit: ${{ user.userbank.user_amount }}</h1>
         </div>
 
         </div>
